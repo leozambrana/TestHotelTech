@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "install-all": "npm install --prefix backend && npm install --prefix frontend",
-    "start": "concurrently -n \"WEB,API\" -c \"cyan.bold,magenta.bold\" --kill-others \"npm run dev --prefix frontend\" \"node -e \\\"const {spawn}=require('child_process'); const map=process.env.npm_config_map || ''; const bookings=process.env.npm_config_bookings || ''; spawn('npm', ['start', '--prefix', 'backend', '--', '--map='+map, '--bookings='+bookings], {stdio: 'inherit', shell: true})\\\"\"",
+    "start": "node scripts/start.js",
     "test": "npm test --prefix backend && npm test --prefix frontend"
   },
   "devDependencies": {
