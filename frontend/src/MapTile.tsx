@@ -1,14 +1,14 @@
 import type { Tile } from './types';
 
 // ─── Asset imports ─────────────────────────────────────────────────────────────
-import cabanaImg   from '../assets/cabana.png';
-import poolImg     from '../assets/pool.png';
-import chaletImg   from '../assets/houseChimney.png';
-import straightImg from '../assets/arrowStraight.png';
-import cornerImg   from '../assets/arrowCornerSquare.png';
-import crossingImg from '../assets/arrowCrossing.png';
-import splitImg    from '../assets/arrowSplit.png';
-import endImg      from '../assets/arrowEnd.png';
+import cabanaImg   from './assets/cabana.png';
+import poolImg     from './assets/pool.png';
+import chaletImg   from './assets/houseChimney.png';
+import straightImg from './assets/arrowStraight.png';
+import cornerImg   from './assets/arrowCornerSquare.png';
+import crossingImg from './assets/arrowCrossing.png';
+import splitImg    from './assets/arrowSplit.png';
+import endImg      from './assets/arrowEnd.png';
 
 // ─── Path image logic ──────────────────────────────────────────────────────────
 

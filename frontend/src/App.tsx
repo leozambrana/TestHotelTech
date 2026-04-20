@@ -3,7 +3,7 @@ import type { Tile } from './types';
 import { MapTile } from './MapTile';
 import { BookingModal } from './BookingModal';
 import { GuestListModal } from './GuestListModal';
-import cabanaImg from '../assets/cabana.png';
+import cabanaImg from './assets/cabana.png';
 
 const API = 'http://localhost:3001';
 
