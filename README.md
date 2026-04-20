@@ -48,6 +48,7 @@ npm test --prefix frontend
 │   └── vitest.config.ts
 ├── frontend/
 │   ├── src/
+│   │   ├── assets/                     # Tile image assets
 │   │   ├── App.tsx             # Root component, state, fetch
 │   │   ├── MapTile.tsx         # Single tile with neighbor-aware path images
 │   │   ├── BookingModal.tsx    # Booking form + API integration
@@ -55,7 +56,6 @@ npm test --prefix frontend
 │   │   ├── types.ts            # Frontend-side type mirror of backend
 │   │   └── __tests__/          # Component tests
 │   └── vitest.config.ts
-├── assets/                     # Tile image assets
 ├── map.ascii                   # Default resort map layout
 ├── bookings.json               # Default guest list
 └── scripts/start.js            # Monorepo launcher (passes CLI args through)
@@ -65,18 +65,18 @@ npm test --prefix frontend
 
 ## API Reference
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/map` | Full tile grid with live availability |
+| Method | Endpoint        | Description                                        |
+| ------ | --------------- | -------------------------------------------------- |
+| `GET`  | `/api/map`      | Full tile grid with live availability              |
 | `POST` | `/api/bookings` | Book a cabin `{ cabanaId, guestName, roomNumber }` |
-| `GET` | `/api/guests` | List all registered guests (dev reference) |
-| `GET` | `/api/health` | Server health + booking count |
+| `GET`  | `/api/guests`   | List all registered guests (dev reference)         |
+| `GET`  | `/api/health`   | Server health + booking count                      |
 
 ---
 
 ## Design Decisions & Trade-offs
 
-**Separation of concerns over minimal code.** The backend is intentionally split into `app.ts` (Express routes as a testable factory), `mapParser.ts` (pure file-to-grid transform), and `bookingService.ts` (in-memory state with a clean API). This adds one extra file but makes each piece independently unit-testable without starting a real server.
+**Separation of concerns over minimal code.** The backend is split into four focused files: `server.ts` handles CLI arguments and calls `app.listen()` — it is the entry point and nothing else. `app.ts` exports a `createApp()` factory that receives the guest list and map path, configures all Express routes, and returns the app _without_ binding to a port. This separation is what makes integration tests possible: tests import `createApp()` directly and use `supertest` against it without ever starting a real server. `mapParser.ts` is a pure file-to-grid transform, and `bookingService.ts` owns the in-memory booking state with a clean, testable API.
 
 **No database, no persistence.** In-memory state via a `Map<string, Booking>` resets on restart. The spec explicitly allows this, and it keeps the solution self-contained with zero infrastructure dependencies.
 

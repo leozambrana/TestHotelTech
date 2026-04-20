@@ -2,58 +2,26 @@
 
 ## Tools Used
 
-- **Antigravity** — Google DeepMind AI coding assistant (Claude Sonnet model), used as the primary pair-programming agent throughout the entire project.
+**Antigravity** (Google DeepMind AI coding assistant) was used as the primary pair-programming tool throughout the entire development of this project.
 
 ---
 
-## How the Project Was Built
+## How AI Was Used
 
-The entire codebase was produced through a conversational, iterative workflow — prompts describing intent, agent proposes code, developer reviews and adjusts. Total prompts: ~15 major steps.
+The development process was driven by open-ended, high-level questions rather than prescriptive instructions. Instead of specifying exact implementation details, the approach was to describe goals and problems in natural language and let the AI propose solutions — which were then reviewed, adjusted, and iterated on.
 
-### Step-by-step breakdown
+Examples of the kind of questions used:
 
-| # | Prompt intent | What was built |
-|---|---|---|
-| 1 | "Implement the backend: CLI args, map parser, in-memory state, GET /api/map, POST /api/bookings" | `index.ts` → `server.ts`, initial `mapParser.ts`, booking logic inline |
-| 2 | "Refactor: create `types.ts`, `bookingService.ts` — flat structure, no deep folders" | Extracted types and service layer |
-| 3 | "Build the frontend with a luxury resort dark theme, integrate with the backend" | `index.css` design system, `App.tsx`, `MapTile.tsx`, `BookingModal.tsx` |
-| 4 | "Fix path tile images — they're all showing arrowStraight. Use the correct variant per tile shape" | Neighbor-aware `getPathConfig()` function in `MapTile.tsx` |
-| 5 | "The corner images are wrong — you assumed top-right but it's top-left" | Viewed pixel content of each asset to verify base orientations, fixed all rotations |
-| 6 | "Paths should also connect to chalé/cabana neighbors, not only other paths" | Changed `isPath` → `isConnected` (any non-empty neighbor) |
-| 7 | "Translate everything to English" | UI strings, HTML lang, meta description |
-| 8 | "Add a help button that shows all registered guests for testing" | `GuestListModal.tsx`, `GET /api/guests` endpoint |
-| 9 | "What is still missing to complete the spec?" | Gap analysis: tests, README, booked-cabin feedback, AI.md, screenshot |
-| 10 | "Do it all in that order" | Automated tests, README rewrite, toast for booked cabin, AI.md (this file) |
+- Asking the AI to implement the backend structure following a given spec
+- Asking it to apply a dark, luxury theme to the frontend
+- Describing visual bugs (like incorrect tile images on the map) and asking how to fix them
+- Asking for a logical fix when path connections were not rendering correctly with neighboring tiles
+- Asking what was still missing to meet the project requirements
 
----
-
-## Key Prompts (verbatim or paraphrased)
-
-```
-"Implement the Backend... server.ts... mapParser.ts... bookingService.ts..."
-
-"Refactor to create types.ts and bookingService.ts... keep it flat, no deep folders..."
-
-"Build the frontend with a luxury resort theme, dark mode, integrate with the backend..."
-
-"The path tile images are not correct — on a corner it always uses arrowStraight..."
-
-"The rotations for the 3-sided (T-junction) paths are still wrong — how would you fix the logic?"
-
-"Paths should also connect to chalét neighbors (non-path tiles) — fix the isConnected logic"
-
-"Create a help button showing guest names and rooms from bookings.json"
-
-"Tell me what is still missing based on the README requirements"
-
-"Do it all in that order" (tests → README → booked cabin feedback → AI.md)
-```
+This conversational, iterative style kept the workflow fast without requiring deep upfront planning.
 
 ---
 
 ## Observations
 
-- The AI was highly effective for **boilerplate, TypeScript types, CSS design systems, and test scaffolding**.
-- The **path image orientation** required multiple iterations — the agent made an incorrect assumption about default image orientation (top-right vs top-left corner) that required explicit correction once the actual assets were examined.
-- The **`isConnected` fix** (paths connecting to non-path neighbors) was a one-line change, but required the right mental model. The agent correctly identified the single variable to change once the problem was described clearly.
-- Overall, the AI reduced what would typically be 1–2 days of solo development to roughly 3–4 hours of conversational iteration.
+The AI was particularly effective for boilerplate setup, TypeScript type definitions, CSS design systems, and automated test scaffolding. Bugs that required understanding of specific asset orientations or map rendering logic needed more back-and-forth, as the AI sometimes made initial assumptions that had to be corrected after visual inspection. Overall, AI assistance significantly accelerated the development cycle.
