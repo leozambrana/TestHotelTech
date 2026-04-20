@@ -25,6 +25,9 @@ Backend API: http://localhost:3001
 ## Running Tests
 
 ```bash
+#running all tests
+npm run test
+
 # Backend — unit tests (mapParser, bookingService) + integration tests (API routes)
 npm test --prefix backend
 
