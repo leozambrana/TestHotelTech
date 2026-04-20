@@ -88,6 +88,10 @@ app.post('/api/bookings', (req, res) => {
   });
 });
 
+app.get('/api/guests', (_req, res) => {
+  res.json(guestList);
+});
+
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', map: MAP_PATH, bookings: BOOKINGS_PATH, bookedCount: getAllBookedIds().size });
 });
