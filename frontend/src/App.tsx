@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { Tile } from './types';
 import { MapTile } from './MapTile';
 import { BookingModal } from './BookingModal';
@@ -8,11 +8,13 @@ import cabanaImg from '../assets/cabana.png';
 const API = 'http://localhost:3001';
 
 export default function App() {
-  const [grid, setGrid]                 = useState<Tile[][]>([]);
-  const [loading, setLoading]           = useState(true);
-  const [error, setError]               = useState<string | null>(null);
-  const [selectedTile, setSelectedTile] = useState<Tile | null>(null);
-  const [showGuests, setShowGuests]     = useState(false);
+  const [grid, setGrid]                       = useState<Tile[][]>([]);
+  const [loading, setLoading]                 = useState(true);
+  const [error, setError]                     = useState<string | null>(null);
+  const [selectedTile, setSelectedTile]       = useState<Tile | null>(null);
+  const [showGuests, setShowGuests]           = useState(false);
+  const [unavailableMsg, setUnavailableMsg]   = useState<string | null>(null);
+  const noticeTimer                           = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Fetch map from backend ─────────────────────────────────────────────────
   const fetchMap = useCallback(async () => {
@@ -41,6 +43,17 @@ export default function App() {
         ),
       ),
     );
+  }
+
+  // ── Tile click — routes to booking modal or unavailable notice ─────────────
+  function handleTileClick(tile: Tile) {
+    if (tile.available) {
+      setSelectedTile(tile);
+    } else {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setUnavailableMsg(`${tile.id} is already booked.`);
+      noticeTimer.current = setTimeout(() => setUnavailableMsg(null), 3000);
+    }
   }
 
   // ── Stats ──────────────────────────────────────────────────────────────────
@@ -118,7 +131,7 @@ export default function App() {
                       key={`${tile.x}-${tile.y}`}
                       tile={tile}
                       grid={grid}
-                      onClick={setSelectedTile}
+                      onClick={handleTileClick}
                     />
                   ))}
                 </div>
@@ -150,6 +163,13 @@ export default function App() {
           onClose={() => setSelectedTile(null)}
           onSuccess={handleBookingSuccess}
         />
+      )}
+
+      {/* ── Unavailable cabin toast ───────────────────────────────────────── */}
+      {unavailableMsg && (
+        <div className="toast" role="status" aria-live="assertive">
+          {unavailableMsg}
+        </div>
       )}
 
       {/* ── Guest list modal (dev helper) ──────────────────────────────────── */}

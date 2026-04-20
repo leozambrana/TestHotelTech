@@ -111,15 +111,15 @@ export function MapTile({ tile, grid, onClick }: TileProps) {
       : type;
 
   function handleClick() {
-    if (type === 'cabana' && available) onClick(tile);
+    if (type === 'cabana') onClick(tile); // parent decides: open modal or show notice
   }
 
   return (
     <div
       className={classNames}
       onClick={handleClick}
-      role={type === 'cabana' && available ? 'button' : undefined}
-      tabIndex={type === 'cabana' && available ? 0 : undefined}
+      role={type === 'cabana' ? 'button' : undefined}
+      tabIndex={type === 'cabana' ? 0 : undefined}
       aria-label={label}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(); }}
       title={label}

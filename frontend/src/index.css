@@ -662,3 +662,23 @@ body {
 
 .help-btn:hover::before { opacity: 1; }
 
+/* ─── Unavailable cabin toast ─────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: var(--radius);
+  color: #fca5a5;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 24px;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: fadeIn 0.2s ease;
+}
+
+

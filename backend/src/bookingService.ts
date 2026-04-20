@@ -2,6 +2,11 @@ import type { GuestRecord, BookingBody } from './types.js';
 
 const bookedCabanas = new Map<string, BookingBody>();
 
+/** Clears all in-memory bookings. Used by tests to reset state between runs. */
+export function resetBookings(): void {
+  bookedCabanas.clear();
+}
+
 export function isValidGuest(guestList: GuestRecord[], guestName: string, roomNumber: string): boolean {
   return guestList.some(
     (g) =>
